@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	.container
+		.list-group
+			for each in data
+				if each.cover
+					a(href='#').list-group-item.list-group-item-action
+						img(src='https:'+ each.cover.url)
+						script.
+							let date = new Date(each.first_release_date);
+						h3= `${each.name} ${date}`

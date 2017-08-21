@@ -1,0 +1,1 @@
+exports.siteName = 'Game Search';
