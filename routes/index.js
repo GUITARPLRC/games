@@ -23,11 +23,12 @@ router.get('/', (req, res) => {
 });
 
 router.get('/upcoming', (req, res) => {
+	let date = new Date();
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover&order=release_dates.date:desc`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover&filter=[first_release_date][gte]=${date}&order=release_dates.date:desc`
 		)
 		.header(
 			'X-Mashape-Key',
