@@ -67,7 +67,7 @@ router.post('/search', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?search=${gameTitle}&fields=name,cover&order=release_dates.date:desc:min&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?search=${gameTitle}&fields=name,cover&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
