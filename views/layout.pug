@@ -2,7 +2,7 @@ doctype html
 html
 	head
 		title= `${title} -- ${h.siteName}`
-		meta(name="viewport" content="width=device-width, initial-scale=1")
+		meta(name="viewport", content="width=device-width, initial-scale=1")
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='style.css')
 	body
@@ -13,15 +13,13 @@ html
 				.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li.nav-item
-							a(href='/') Home
-						li.nav-item
 							a(href='/upcoming') Upcoming Games
 						li.nav-item
 							a(href="/newreleases") New Releases
-					form.navbar-form.navbar-right
+					form(method='POST', action='/search').navbar-form.navbar-right
 						.form-group
-							input(type='text', placeholder='Game Title').form-control
-						button(type='submit').btn.btn-primary Search ->
+							input(type='text', placeholder='Game Title', name='title').form-control
+						button(type='submit').btn.btn-primary Search &#8594;
 
 		block content
 			
