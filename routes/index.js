@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
 
 	let responseData;
 
-	unirest.get(`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=*&limit=20`)
+	unirest.get(`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover&order=popularity:desc`)
 		.header("X-Mashape-Key", "LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf")
 		.header("Accept", "application/json")
 		.end(function (result) {
@@ -24,13 +24,18 @@ router.get('/upcoming', (req, res) => {
 
 	let responseData;
 
-	unirest.get(`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?filter[release_dates.date][gt]=${date}&fields=*&limit=20&offset=0&order=release_dates.date:asc:max`)
+	unirest.get(`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}`)
 		.header("X-Mashape-Key", "LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf")
 		.header("Accept", "application/json")
 		.end(function (result) {
-		  responseData = result.body;
 
-			res.render('upcoming', { data: responseData, title: 'Upcoming Games' })
+			let list = [];
+			for (let i = 0; i < result.body.length; i++) {
+				list.push(result.body[i].id)
+			}
+			console.log(...list)
+
+			res.render('upcoming', { data: list, title: 'Upcoming Games' })
 		});
 
 })
