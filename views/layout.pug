@@ -16,7 +16,7 @@ html
 							a(href='/upcoming') Upcoming Games
 						li.nav-item
 							a(href="/newreleases") New Releases
-					form(method='POST', action='/search').navbar-form.navbar-right
+					form(method='GET', action='/search').navbar-form.navbar-right
 						.form-group
 							input(type='text', placeholder='Game Title', name='title').form-control
 						button(type='submit').btn.btn-primary Search &#8594;

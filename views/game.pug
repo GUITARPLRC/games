@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	.container
+			for each in data
+				if each.cover
+					img(src='https:'+each.cover.url)
+					h3= each.name
+					p= each.summary
