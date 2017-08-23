@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary&order=popularity:desc`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&order=popularity:desc`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -28,7 +28,7 @@ router.get('/upcoming', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary&filter=[first_release_date][gt]=${date}&order=first_release_date:desc&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&filter=[first_release_date][gt]=${date}&order=first_release_date:desc&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -48,7 +48,7 @@ router.get('/newreleases', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary&filter=[first_release_date][lt]=${date}&order=first_release_date:desc&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&filter=[first_release_date][lt]=${date}&order=first_release_date:desc&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -98,7 +98,8 @@ router.get('/:id', (req, res) => {
 		.end(function(result) {
 			responseData = result.body;
 
-			res.render('game', { data: responseData, title: `${req.params.id}` });
+			//TODO fix title response
+			res.render('game', { data: responseData, title: `${responseData.name}` });
 		});
 });
 
