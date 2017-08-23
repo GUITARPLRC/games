@@ -1,1 +1,9 @@
-
+.screenshots {
+	display: flex;
+}
+.screenshot {
+	cursor: pointer;
+}
+.screenshot:hover {
+	background-color: #ccc;
+}

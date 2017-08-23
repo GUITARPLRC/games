@@ -2,11 +2,14 @@ extends layout
 
 block content
 	.container
-			for each in data
-				if each.cover
-					img(src='https:'+each.cover.url)
-					h3= each.name
-					p= each.summary
-					script.
-						//TODO add more to game page
-						console.log(this)
+		if data[0].cover.cloudinary_id
+			img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data[0].cover.cloudinary_id}.jpg`, height=500)
+		h3= data[0].name
+		if data[0].release_dates[1].human
+			h5 Release Date: #{data[0].release_dates[1].human}
+		if data[0].summary
+			p= data[0].summary
+		if data[0].screenshots
+			.list-group.screenshots
+				for each in data[0].screenshots
+					img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`).list-group-item.list-group-item-action.screenshot
