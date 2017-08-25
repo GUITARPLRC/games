@@ -8,7 +8,14 @@ h4 {
 .list {
 	display: flex;
 	flex-wrap: wrap;
-	width: 48%;
+}
+.eachList {
+	height: 540px;
+	margin: 0 1% 3% 0;
+	width: 49%;
+}
+.eachList a {
+	height: 540px;
 }
 
 .list-group.screenshots {

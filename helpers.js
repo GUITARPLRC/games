@@ -3,8 +3,8 @@ exports.siteName = 'Game Search';
 exports.short = str => {
 	let newStr = str.split(' ');
 
-	if (newStr.length > 100) {
-		return newStr.slice(0, 100).join(' ') + '...';
+	if (newStr.length > 75) {
+		return newStr.slice(0, 75).join(' ') + '...';
 	} else {
 		return str;
 	}
