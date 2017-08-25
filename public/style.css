@@ -1,14 +1,26 @@
-.screenshots {
+h4 {
+	margin: 30px 0 10px 0;
+}
+.container {
+	text-align: center;
+	margin: auto;
+}
+.list {
 	display: flex;
 	flex-wrap: wrap;
+	width: 48%;
 }
-.screenshot {
+
+.list-group.screenshots {
 	cursor: pointer;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 .screenshot:hover {
 	background-color: #ccc;
 }
 
-.modal-dialog img {
-	max-width: 100% !important;
+img {
+	max-width: 100%;
 }

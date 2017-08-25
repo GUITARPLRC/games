@@ -2,23 +2,43 @@ extends layout
 
 block content
 	.container
-		if data[0].cover
-			if data[0].cover.cloudinary_id
-				img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data[0].cover.cloudinary_id}.jpg`, height=500)
-		if data[0].name
-			h3= data[0].name
-		if data[0].release_dates
-			if data[0].release_dates[1]
-				if data[0].release_dates[1].human
-					h5 Release Date: #{data[0].release_dates[1].human}
-		if data[0].summary
-			p= data[0].summary
-		if data[0].screenshots
+		if data.cover
+			if data.cover.cloudinary_id
+				img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data.cover.cloudinary_id}.jpg`, height=500)
+					
+		if data.name
+			h3= data.name
+			
+		if data.release_dates
+			if data.release_dates[1]
+				if data.release_dates[1].human
+					h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
+				else
+					h5 Release Date: Not Available
+			else
+				h5 Release Date: Not Available
+		else
+			h5 Release Date: Not Available
+			
+		if data.esrb
+			if data.esrb.synopsis
+				p= h.short(data.esrb.synopsis)
+		
+		unless data.esrb
+			if data.summary
+				p= h.short(data.summary)
+			
+		if data.screenshots
+			h4 Screen Shots
 			.list-group.screenshots
-				for each in data[0].screenshots
+				for each in data.screenshots
 					.list-group-item.list-group-item-action.screenshot(data-toggle='modal', data-target='.bs-example-modal-lg')
 						img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`, data-target='#modal')
-							
+		else
+			p
+				strong Sorry, no images available at this time					
+				
+				
 	#modal.modal.fade.bs-example-modal-lg
 		.modal-dialog.modal-lg
 			.modal-content

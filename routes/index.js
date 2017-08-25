@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&order=popularity:desc`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 		.end(function(result) {
 			responseData = result.body;
 
-			res.render('index', { data: responseData, title: 'Home' });
+			res.render('listGames', { data: responseData, title: 'Home' });
 		});
 });
 
@@ -43,7 +43,7 @@ router.get('/upcoming', (req, res) => {
 		.end(function(result) {
 			responseData = result.body;
 
-			res.render('upcoming', { data: responseData, title: 'Upcoming Games' });
+			res.render('listGames', { data: responseData, title: 'Upcoming Games' });
 		});
 });
 
@@ -53,7 +53,7 @@ router.get('/newreleases', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&filter=[first_release_date][lt]=${date}&order=first_release_date:desc&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id,esrb&filter=[first_release_date][lt]=${date}&order=first_release_date:desc&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -63,7 +63,7 @@ router.get('/newreleases', (req, res) => {
 		.end(function(result) {
 			responseData = result.body;
 
-			res.render('newReleases', { data: responseData, title: 'New Releases' });
+			res.render('listGames', { data: responseData, title: 'New Releases' });
 		});
 });
 
@@ -73,7 +73,7 @@ router.get('/search', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?search=${gameTitle}&fields=name,cover,summary,id&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?search=${gameTitle}&fields=name,cover,summary,id,esrb&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -83,7 +83,7 @@ router.get('/search', (req, res) => {
 		.end(function(result) {
 			responseData = result.body;
 
-			res.render('search', { data: responseData, title: 'Search' });
+			res.render('listGames', { data: responseData, title: 'Search' });
 		});
 });
 
@@ -101,10 +101,16 @@ router.get('/:id', (req, res) => {
 		)
 		.header('Accept', 'application/json')
 		.end(function(result) {
-			responseData = result.body;
+			responseData = result.body[0];
 
-			//TODO fix title response
-			res.render('game', { data: responseData, title: `${responseData.name}` });
+			let title = '';
+			if (responseData.name) {
+				title = responseData.name;
+			} else {
+				title = 'Game';
+			}
+
+			res.render('game', { data: responseData, title: responseData.name });
 		});
 });
 
