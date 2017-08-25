@@ -2,14 +2,27 @@ extends layout
 
 block content
 	.container
-		if data[0].cover.cloudinary_id
-			img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data[0].cover.cloudinary_id}.jpg`, height=500)
-		h3= data[0].name
-		if data[0].release_dates[1].human
-			h5 Release Date: #{data[0].release_dates[1].human}
+		if data[0].cover
+			if data[0].cover.cloudinary_id
+				img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data[0].cover.cloudinary_id}.jpg`, height=500)
+		if data[0].name
+			h3= data[0].name
+		if data[0].release_dates
+			if data[0].release_dates[1]
+				if data[0].release_dates[1].human
+					h5 Release Date: #{data[0].release_dates[1].human}
 		if data[0].summary
 			p= data[0].summary
 		if data[0].screenshots
 			.list-group.screenshots
 				for each in data[0].screenshots
-					img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`).list-group-item.list-group-item-action.screenshot
+					.list-group-item.list-group-item-action.screenshot(data-toggle='modal', data-target='.bs-example-modal-lg')
+						img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`, data-target='#modal')
+							
+	#modal.modal.fade.bs-example-modal-lg
+		.modal-dialog.modal-lg
+			.modal-content
+				.modal-header
+					button.close(type='close', data-dismiss='modal', aria-hidden='true') &times;
+				.modal-body
+					img#modalImage

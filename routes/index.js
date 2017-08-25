@@ -3,6 +3,11 @@ let router = express.Router();
 
 let unirest = require('unirest');
 
+//NOTE remove if favicon is supplied
+router.get('/favicon.ico', function(req, res) {
+	res.status(204);
+});
+
 router.get('/', (req, res) => {
 	let responseData;
 

@@ -1,9 +1,14 @@
 .screenshots {
 	display: flex;
+	flex-wrap: wrap;
 }
 .screenshot {
 	cursor: pointer;
 }
 .screenshot:hover {
 	background-color: #ccc;
+}
+
+.modal-dialog img {
+	max-width: 100% !important;
 }
