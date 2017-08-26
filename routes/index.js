@@ -30,13 +30,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/upcoming', (req, res) => {
-	const date = new Date();
-	const year = date.getFullYear();
+	const date = new Date().getTime();
+	console.log(date);
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&filter=[y][gt]=${year}`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][gt]=1500619813000`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -52,12 +52,12 @@ router.get('/upcoming', (req, res) => {
 });
 
 router.get('/newreleases', (req, res) => {
-	const date = Date.now();
+	const date = new Date().getTime();
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][lte]=${date}`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][lt]=${date}`
 		)
 		.header(
 			'X-Mashape-Key',
