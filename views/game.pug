@@ -9,20 +9,27 @@ block content
 					
 		if data.name
 				h2= data.name
-			
-		if data.release_dates
-			if data.release_dates[1]
-				if data.release_dates[1].human
-					h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
-				else
+		
+		.info
+			if data.release_dates
+				if data.release_dates[1]
+					if data.release_dates[1].human
+						h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
+					else
+						h5 Release Date: Not Available
+				else if data.release_dates[0]
+					if data.release_dates[0].human
+						h5 Release Date: #{h.dateFormat(data.release_dates[0].human)}
+				else 
 					h5 Release Date: Not Available
-			else if data.release_dates[0]
-				if data.release_dates[0].human
-					h5 Release Date: #{h.dateFormat(data.release_dates[0].human)}
-			else 
+			else
 				h5 Release Date: Not Available
-		else
-			h5 Release Date: Not Available
+				
+			if platforms
+				h5 Platforms:
+				for each in platforms
+					p #{h.findPlatform(each)}
+				
 			
 		if data.summary
 			p= data.summary

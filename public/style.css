@@ -1,14 +1,41 @@
-/* Universal */
+/* Colors
 
+black - #0b2027
+blue - #40798c
+light green - #aac0af
+dark green - #70a9a1
+beige - #f6f1d1
+
+*/
+
+/* Universal */
+body {
+	background-color: #f6f1d1;
+}
 h4 {
 	margin: 50px 0 10px 0;
 }
-
+button[type='submit'] {
+	background-color: #aac0af;
+	margin: 0 0 0 2px;
+}
+button[type='submit']:hover {
+	background-color: #70a9a1;
+}
 img {
 	max-width: 100%;
 }
 
 /* Main component */
+nav {
+	background-color: #0b2027;
+}
+.nav-item a {
+	color: #aac0af !important;
+}
+.nav-item a:hover {
+	color: #70a9a1 !important;
+}
 .container {
 	text-align: center;
 	margin: auto;
@@ -18,10 +45,16 @@ img {
 	display: flex;
 	flex-wrap: wrap;
 }
+.info {
+	background-color: ;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
 
 /* Individual components */
 .title > img {
-	max-height: 500px;
+	max-height: 50vh;
 }
 .eachList {
 	height: 540px;
@@ -38,6 +71,12 @@ img {
 	flex-wrap: wrap;
 	justify-content: center;
 }
+.list-group-item {
+	background-color: #aac0af;
+}
+.list-group-item:hover {
+	background-color: #70a9a1 !important;
+}
 .screenshot:hover {
 	background-color: #ccc;
 }
@@ -52,4 +91,12 @@ img {
 .similarCover img {
 	margin: 0 auto;
 	width: 90px;
+}
+
+/* button link Transistions */
+
+button[type='submit'],
+.list-group-item,
+.nav-item a {
+	transition: all 0.3s ease;
 }

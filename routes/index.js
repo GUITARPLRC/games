@@ -25,19 +25,6 @@ router.get('/', (req, res) => {
 
 			res.render('listGames', { data: responseData, title: 'Home' });
 		});
-
-	unirest
-		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/platforms/?fields=name`
-		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			console.log(result.body);
-		});
 });
 
 router.get('/upcoming', (req, res) => {
@@ -117,8 +104,10 @@ router.get('/:id', (req, res) => {
 			responseData = result.body[0];
 
 			let platforms = [];
-			for (let i = 0; i < responseData.release_dates.length; i++) {
-				platforms.push(responseData.release_dates[i].platform);
+			if (responseData.release_dates.length > 0) {
+				for (let i = 0; i < responseData.release_dates.length; i++) {
+					platforms.push(responseData.release_dates[i].platform);
+				}
 			}
 
 			let platformList = Array.from(new Set(platforms));
@@ -150,13 +139,15 @@ router.get('/:id', (req, res) => {
 						res.render('game', {
 							data: responseData,
 							title: responseData.name,
-							games: gamesData
+							games: gamesData,
+							platforms: platformList
 						});
 					});
 			} else {
 				res.render('game', {
 					data: responseData,
-					title: responseData.name
+					title: responseData.name,
+					platforms: platformList
 				});
 			}
 		});

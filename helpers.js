@@ -20,6 +20,14 @@ exports.dateFormat = str => {
 	}
 };
 
+exports.findPlatform = id => {
+	for (let i = 0; i < platforms.length; i++) {
+		if (platforms[i].id === id) {
+			return `- ${platforms[i].name}`;
+		}
+	}
+};
+
 let platforms = [
 	{ id: 14, name: 'Mac' },
 	{ id: 19, name: 'Super Nintendo Entertainment System (SNES)' },
