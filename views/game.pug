@@ -24,11 +24,11 @@ block content
 		else
 			h5 Release Date: Not Available
 			
-		if data.esrb
+		if data.summary
+			p= data.summary
+		else if data.esrb
 			if data.esrb.synopsis
 				p= data.esrb.synopsis
-		else if data.summary
-			p= data.summary
 		else
 			p
 				strong Sorry, no summary available at this time
