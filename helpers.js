@@ -11,7 +11,11 @@ exports.short = str => {
 };
 
 exports.dateFormat = str => {
-	let newStr = str.slice(5);
-	newStr += `-${str.slice(0, 4)}`;
-	return newStr;
+	if (str.length > 4) {
+		let newStr = str.slice(5);
+		newStr += `-${str.slice(0, 4)}`;
+		return newStr;
+	} else {
+		return str;
+	}
 };

@@ -15,18 +15,19 @@ block content
 					h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
 				else
 					h5 Release Date: Not Available
-			else
+			else if data.release_dates[0]
+				if data.release_dates[0].human
+					h5 Release Date: #{h.dateFormat(data.release_dates[0].human)}
+			else 
 				h5 Release Date: Not Available
 		else
 			h5 Release Date: Not Available
 			
 		if data.esrb
 			if data.esrb.synopsis
-				p= h.short(data.esrb.synopsis)
-		
-		unless data.esrb
-			if data.summary
-				p= h.short(data.summary)
+				p= data.esrb.synopsis
+		else if data.summary
+			p= data.summary
 			
 		if data.screenshots
 			h4 Screen Shots
@@ -36,8 +37,19 @@ block content
 						img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`, data-target='#modal')
 		else
 			p
-				strong Sorry, no images available at this time					
+				strong Sorry, no images available at this time
 				
+		//- FIXME
+			if games
+				h3 Similar Games
+					.list-group.similarGames
+						for each in games
+							a(href=`${each.id}`).list-group-item.list-group.item.action.similarCover
+								if each.name
+									h5= each.name
+								if each.cover
+									img(src=each.cover.url)
+		//
 				
 	#modal.modal.fade.bs-example-modal-lg
 		.modal-dialog.modal-lg
@@ -45,4 +57,4 @@ block content
 				.modal-header
 					button.close(type='close', data-dismiss='modal', aria-hidden='true') &times;
 				.modal-body
-					img#modalImage
+					img#modalContainer

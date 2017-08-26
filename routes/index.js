@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-let unirest = require('unirest');
+const unirest = require('unirest');
 
 //NOTE remove if favicon is supplied
 router.get('/favicon.ico', function(req, res) {
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/upcoming', (req, res) => {
-	let date = new Date();
+	const date = new Date();
 	let responseData;
 
 	unirest
@@ -48,7 +48,7 @@ router.get('/upcoming', (req, res) => {
 });
 
 router.get('/newreleases', (req, res) => {
-	let date = new Date();
+	const date = new Date();
 	let responseData;
 
 	unirest
@@ -68,8 +68,8 @@ router.get('/newreleases', (req, res) => {
 });
 
 router.get('/search', (req, res) => {
+	const gameTitle = req.query.title.split(' ').join('+');
 	let responseData;
-	let gameTitle = req.query.title.split(' ').join('+');
 
 	unirest
 		.get(
@@ -88,7 +88,7 @@ router.get('/search', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-	let gameId = req.params.id;
+	const gameId = req.params.id;
 	let responseData;
 
 	unirest
@@ -110,7 +110,35 @@ router.get('/:id', (req, res) => {
 				title = 'Game';
 			}
 
-			res.render('game', { data: responseData, title: responseData.name });
+			let similarList = '';
+
+			if (responseData.games) {
+				similarList = responseData.games.join(',');
+
+				unirest
+					.get(
+						`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${similarList}?fields=*`
+					)
+					.header(
+						'X-Mashape-Key',
+						'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+					)
+					.header('Accept', 'application/json')
+					.end(function(result) {
+						gamesData = result;
+
+						res.render('game', {
+							data: responseData,
+							title: responseData.name,
+							games: gamesData
+						});
+					});
+			} else {
+				res.render('game', {
+					data: responseData,
+					title: responseData.name
+				});
+			}
 		});
 });
 
