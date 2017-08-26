@@ -125,7 +125,7 @@ router.get('/:id', (req, res) => {
 					)
 					.header('Accept', 'application/json')
 					.end(function(result) {
-						gamesData = result;
+						gamesData = result.body;
 
 						res.render('game', {
 							data: responseData,

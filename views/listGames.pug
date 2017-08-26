@@ -4,11 +4,11 @@ block content
 	.container
 		.list-group.list
 			for each in data
-				.eachList
-					a(href=`${each.id}`).list-group-item.list-group-item-action
-						if each.cover
+				if each.cover
+					.eachList
+						a(href=`${each.id}`).list-group-item.list-group-item-action
 							img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${each.cover.cloudinary_id}.jpg`, height=300)
-						if each.name
-							h3= each.name
-						if each.summary
-							p= h.short(each.summary)
+							if each.name
+								h3= each.name
+							if each.summary
+								p= h.short(each.summary)

@@ -4,10 +4,11 @@ block content
 	.container
 		if data.cover
 			if data.cover.cloudinary_id
-				img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data.cover.cloudinary_id}.jpg`, height=500)
+				.title
+					img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data.cover.cloudinary_id}.jpg`)
 					
 		if data.name
-			h3= data.name
+				h2= data.name
 			
 		if data.release_dates
 			if data.release_dates[1]
@@ -28,28 +29,30 @@ block content
 				p= data.esrb.synopsis
 		else if data.summary
 			p= data.summary
+		else
+			p
+				strong Sorry, no summary available at this time
 			
 		if data.screenshots
 			h4 Screen Shots
 			.list-group.screenshots
 				for each in data.screenshots
 					.list-group-item.list-group-item-action.screenshot(data-toggle='modal', data-target='.bs-example-modal-lg')
-						img(src=`https://images.igdb.com/igdb/image/upload/t_thumb/${each.cloudinary_id}.jpg`, data-target='#modal')
+						img(src=`https://images.igdb.com/igdb/image/upload/t_thumb_2x/${each.cloudinary_id}.jpg`, data-target='#modal')
 		else
 			p
 				strong Sorry, no images available at this time
 				
-		//- FIXME
-			if games
-				h3 Similar Games
-					.list-group.similarGames
-						for each in games
-							a(href=`${each.id}`).list-group-item.list-group.item.action.similarCover
-								if each.name
-									h5= each.name
-								if each.cover
-									img(src=each.cover.url)
-		//
+		if games
+			h4 Similar Games
+			.list-group.similarGames
+				for each in games
+					if each.cover
+						a(href=`${each.id}`).list-group-item.list-group.item.action.similarCover
+							if each.name
+								h5= each.name
+							if each.cover
+								img(src=each.cover.url)
 				
 	#modal.modal.fade.bs-example-modal-lg
 		.modal-dialog.modal-lg
