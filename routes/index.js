@@ -3,6 +3,8 @@ const router = express.Router();
 
 const unirest = require('unirest');
 
+const helpers = require('../helpers');
+
 //NOTE remove if favicon is supplied
 router.get('/favicon.ico', function(req, res) {
 	res.status(204);
@@ -29,11 +31,12 @@ router.get('/', (req, res) => {
 
 router.get('/upcoming', (req, res) => {
 	const date = new Date();
+	const year = date.getFullYear();
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id&filter=[first_release_date][gt]=${date}&order=first_release_date:desc&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&filter=[y][gt]=${year}`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -42,18 +45,19 @@ router.get('/upcoming', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
+			console.log(responseData);
 
 			res.render('listGames', { data: responseData, title: 'Upcoming Games' });
 		});
 });
 
 router.get('/newreleases', (req, res) => {
-	const date = new Date();
+	const date = Date.now();
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id,esrb&filter=[first_release_date][lt]=${date}&order=first_release_date:desc&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][lte]=${date}`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -62,6 +66,7 @@ router.get('/newreleases', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
+			console.log(responseData);
 
 			res.render('listGames', { data: responseData, title: 'New Releases' });
 		});

@@ -2,35 +2,35 @@ extends layout
 
 block content
 	.container
-		if data.cover
-			if data.cover.cloudinary_id
-				.title
-					img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data.cover.cloudinary_id}.jpg`)
-					
-		if data.name
-				h2= data.name
-		
-		.info
-			if data.release_dates
-				if data.release_dates[1]
-					if data.release_dates[1].human
-						h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
-					else
+		.top
+			if data.cover
+				if data.cover.cloudinary_id
+					.title
+						img(src=`https://images.igdb.com/igdb/image/upload/t_1080p/${data.cover.cloudinary_id}.jpg`)
+						
+			.info
+				if data.name
+					h2= data.name
+				if data.release_dates
+					if data.release_dates[1]
+						if data.release_dates[1].human
+							h5 Release Date: #{h.dateFormat(data.release_dates[1].human)}
+						else
+							h5 Release Date: Not Available
+					else if data.release_dates[0]
+						if data.release_dates[0].human
+							h5 Release Date: #{h.dateFormat(data.release_dates[0].human)}
+					else 
 						h5 Release Date: Not Available
-				else if data.release_dates[0]
-					if data.release_dates[0].human
-						h5 Release Date: #{h.dateFormat(data.release_dates[0].human)}
-				else 
+				else
 					h5 Release Date: Not Available
-			else
-				h5 Release Date: Not Available
-				
-			if platforms
-				h5 Platforms:
-				for each in platforms
-					p #{h.findPlatform(each)}
-				
-			
+					
+				if platforms
+					h5 Platforms:
+					for each in platforms
+						p #{h.findPlatform(each)}
+					
+		
 		if data.summary
 			p= data.summary
 		else if data.esrb

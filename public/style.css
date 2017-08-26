@@ -30,6 +30,12 @@ img {
 nav {
 	background-color: #0b2027;
 }
+.top {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-around;
+	margin: 0 0 50px 0;
+}
 .nav-item a {
 	color: #aac0af !important;
 }
@@ -55,6 +61,7 @@ nav {
 /* Individual components */
 .title > img {
 	max-height: 50vh;
+	max-width: 60vw;
 }
 .eachList {
 	height: 540px;
@@ -71,8 +78,9 @@ nav {
 	flex-wrap: wrap;
 	justify-content: center;
 }
-.list-group-item {
-	background-color: #aac0af;
+.list-group-item,
+.list-group-item:focus {
+	background-color: #aac0af !important;
 }
 .list-group-item:hover {
 	background-color: #70a9a1 !important;

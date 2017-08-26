@@ -22,7 +22,7 @@ exports.dateFormat = str => {
 
 exports.findPlatform = id => {
 	for (let i = 0; i < platforms.length; i++) {
-		if (platforms[i].id === id) {
+		if (platforms[i].id === id && platforms[i].name) {
 			return `- ${platforms[i].name}`;
 		}
 	}
