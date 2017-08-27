@@ -35,12 +35,13 @@ router.get('/', (req, res) => {
 router.get('/upcoming', (req, res) => {
 	// date in mili to get api data
 	const date = new Date().getTime();
+	console.log(date);
 	let responseData;
 
 	// api call
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=id&order=date:asc&filter[date][gt]=${date}&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -49,6 +50,7 @@ router.get('/upcoming', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
+			console.log(responseData);
 
 			// make list to make second call to api with ids
 			let list = [];
@@ -85,11 +87,12 @@ router.get('/upcoming', (req, res) => {
 router.get('/newreleases', (req, res) => {
 	// date in mili for api call
 	const date = new Date().getTime();
+	console.log(date);
 	let responseData;
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=id&order=date:asc&filter[date][lt]=${date}&limit=20`
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
 		)
 		.header(
 			'X-Mashape-Key',
@@ -98,6 +101,7 @@ router.get('/newreleases', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
+			console.log(responseData);
 
 			let list = [];
 			for (let i = 0; i < responseData.length; i++) {
@@ -171,9 +175,11 @@ router.get('/:id', (req, res) => {
 
 			// make list of platform ids then send to render
 			let platforms = [];
-			if (responseData.release_dates.length > 0) {
-				for (let i = 0; i < responseData.release_dates.length; i++) {
-					platforms.push(responseData.release_dates[i].platform);
+			if (responseData.release_dates) {
+				if (responseData.release_dates.length > 0) {
+					for (let i = 0; i < responseData.release_dates.length; i++) {
+						platforms.push(responseData.release_dates[i].platform);
+					}
 				}
 			}
 			// remove duplicates from array
