@@ -12,23 +12,8 @@ router.get('/favicon.ico', function(req, res) {
 
 // Main Route
 router.get('/', (req, res) => {
-	let responseData;
-
-	// api call
-	unirest
-		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
-		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			responseData = result.body;
-
-			res.render('listGames', { data: responseData, title: 'Home' });
-		});
+	let list = helpers.getPopularList();
+	res.render('listGames', { data: list, title: 'Home' });
 });
 
 // upcoming route
@@ -59,27 +44,26 @@ router.get('/upcoming', (req, res) => {
 			}
 			let gamesList = list.join(',');
 
-			let newGames;
-
 			// second call to api for game list data
-			unirest
-				.get(
-					`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${gamesList}?fields=*`
-				)
-				.header(
-					'X-Mashape-Key',
-					'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-				)
-				.header('Accept', 'application/json')
-				.end(function(result) {
-					newGames = result.body;
-					console.log(newGames);
+			if (gamesList.length > 1) {
+				unirest
+					.get(
+						`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${gamesList}?filter=*`
+					)
+					.header(
+						'X-Mashape-Key',
+						'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+					)
+					.header('Accept', 'application/json')
+					.end(function(result) {
+						console.log(result.body);
 
-					res.render('listGames', {
-						data: newGames,
-						title: 'Upcoming Games'
+						res.render('listGames', {
+							data: result.body,
+							title: 'Upcoming Games'
+						});
 					});
-				});
+			}
 		});
 });
 

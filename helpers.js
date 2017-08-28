@@ -1,4 +1,81 @@
+const unirest = require('unirest');
+
 exports.siteName = 'Game Search';
+
+exports.getPopularList = () => {
+	unirest
+		.get(
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
+		)
+		.header(
+			'X-Mashape-Key',
+			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+		)
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			return result.body;
+		});
+};
+
+exports.getUpcomingList = date => {
+	unirest
+		.get(
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
+		)
+		.header(
+			'X-Mashape-Key',
+			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+		)
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			return result.body;
+		});
+};
+
+exports.getNewReleaseList = date => {
+	unirest
+		.get(
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
+		)
+		.header(
+			'X-Mashape-Key',
+			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+		)
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			return result.body;
+		});
+};
+
+exports.getList = list => {
+	unirest
+		.get(
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${list}?fields=*`
+		)
+		.header(
+			'X-Mashape-Key',
+			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+		)
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			return result.body;
+		});
+};
+
+exports.getGameInfo = id => {
+	unirest
+		.get(
+			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${id}?fields=*`
+		)
+		.header(
+			'X-Mashape-Key',
+			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
+		)
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			return result.body[0];
+		});
+};
 
 exports.short = str => {
 	let newStr = str.split(' ');
