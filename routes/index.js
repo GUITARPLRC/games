@@ -26,12 +26,9 @@ router.get('/upcoming', (req, res) => {
 	// api call
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
 		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
@@ -48,12 +45,9 @@ router.get('/upcoming', (req, res) => {
 			if (gamesList.length > 1) {
 				unirest
 					.get(
-						`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${gamesList}?filter=*`
+						`https://api-2445582011268.apicast.io/games/${gamesList}?filter=*`
 					)
-					.header(
-						'X-Mashape-Key',
-						'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-					)
+					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
 						console.log(result.body);
@@ -76,12 +70,9 @@ router.get('/newreleases', (req, res) => {
 
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
 		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
@@ -96,13 +87,8 @@ router.get('/newreleases', (req, res) => {
 			let newGames;
 
 			unirest
-				.get(
-					`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${gamesList}?fields=*`
-				)
-				.header(
-					'X-Mashape-Key',
-					'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-				)
+				.get(`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`)
+				.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 				.header('Accept', 'application/json')
 				.end(function(result) {
 					newGames = result.body;
@@ -124,12 +110,9 @@ router.get('/search', (req, res) => {
 	// api call
 	unirest
 		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/?search=${gameTitle}&fields=name,cover,summary,id,esrb&limit=20`
+			`https://api-2445582011268.apicast.io/games/?search=${gameTitle}&fields=name,cover,summary,id,esrb&limit=20`
 		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
@@ -146,13 +129,8 @@ router.get('/:id', (req, res) => {
 
 	// api call
 	unirest
-		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${gameId}?fields=*`
-		)
-		.header(
-			'X-Mashape-Key',
-			'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-		)
+		.get(`https://api-2445582011268.apicast.io/games/${gameId}?fields=*`)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body[0];
@@ -186,12 +164,9 @@ router.get('/:id', (req, res) => {
 				// second api call to get similar games data
 				unirest
 					.get(
-						`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${similarList}?fields=*`
+						`https://api-2445582011268.apicast.io/games/${similarList}?fields=*`
 					)
-					.header(
-						'X-Mashape-Key',
-						'LuJ7CeWInTmsh2V727FmmsRAI9S1p1pYAbDjsnyd62PGDJbUQf'
-					)
+					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
 						gamesData = result.body;
