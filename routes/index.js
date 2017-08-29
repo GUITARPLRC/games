@@ -12,15 +12,21 @@ router.get('/favicon.ico', function(req, res) {
 
 // Main Route
 router.get('/', (req, res) => {
-	let list = helpers.getPopularList();
-	res.render('listGames', { data: list, title: 'Home' });
+	unirest
+		.get(
+			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
+		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			res.render('listGames', { data: result.body, title: 'Home' });
+		});
 });
 
 // upcoming route
 router.get('/upcoming', (req, res) => {
 	// date in mili to get api data
 	const date = new Date().getTime();
-	console.log(date);
 	let responseData;
 
 	// api call
@@ -32,7 +38,6 @@ router.get('/upcoming', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
-			console.log(responseData);
 
 			// make list to make second call to api with ids
 			let list = [];
@@ -45,13 +50,11 @@ router.get('/upcoming', (req, res) => {
 			if (gamesList.length > 1) {
 				unirest
 					.get(
-						`https://api-2445582011268.apicast.io/games/${gamesList}?filter=*`
+						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`
 					)
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
-						console.log(result.body);
-
 						res.render('listGames', {
 							data: result.body,
 							title: 'Upcoming Games'
@@ -65,8 +68,8 @@ router.get('/upcoming', (req, res) => {
 router.get('/newreleases', (req, res) => {
 	// date in mili for api call
 	const date = new Date().getTime();
-	console.log(date);
 	let responseData;
+	let gamesList;
 
 	unirest
 		.get(
@@ -76,13 +79,12 @@ router.get('/newreleases', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			responseData = result.body;
-			console.log(responseData);
 
 			let list = [];
 			for (let i = 0; i < responseData.length; i++) {
 				list.push(responseData[i].id);
 			}
-			let gamesList = list.join(',');
+			gamesList = list.join(',');
 
 			let newGames;
 
@@ -92,7 +94,6 @@ router.get('/newreleases', (req, res) => {
 				.header('Accept', 'application/json')
 				.end(function(result) {
 					newGames = result.body;
-					console.log(newGames);
 
 					res.render('listGames', {
 						data: newGames,
@@ -125,7 +126,6 @@ router.get('/search', (req, res) => {
 router.get('/:id', (req, res) => {
 	// get id of game clicked
 	const gameId = req.params.id;
-	let responseData;
 
 	// api call
 	unirest
@@ -169,12 +169,10 @@ router.get('/:id', (req, res) => {
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
-						gamesData = result.body;
-
 						res.render('game', {
 							data: responseData,
 							title: responseData.name,
-							games: gamesData,
+							games: result.body,
 							platforms: platformList
 						});
 					});
