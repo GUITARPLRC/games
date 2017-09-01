@@ -41,8 +41,10 @@ router.get('/upcoming', (req, res) => {
 
 			// make list to make second call to api with ids
 			let list = [];
-			for (let i = 0; i < responseData.length; i++) {
-				list.push(responseData[i].id);
+			let i = 0;
+			while (i < 10) {
+				list.push(result.body[i].id);
+				i++;
 			}
 			let gamesList = list.join(',');
 
@@ -50,7 +52,7 @@ router.get('/upcoming', (req, res) => {
 			if (gamesList.length > 1) {
 				unirest
 					.get(
-						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`
+						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=name,cover,summary,id,esrb`
 					)
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
@@ -68,8 +70,6 @@ router.get('/upcoming', (req, res) => {
 router.get('/newreleases', (req, res) => {
 	// date in mili for api call
 	const date = new Date().getTime();
-	let responseData;
-	let gamesList;
 
 	unirest
 		.get(
@@ -77,26 +77,20 @@ router.get('/newreleases', (req, res) => {
 		)
 		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
-		.end(function(result) {
-			responseData = result.body;
-
+		.end(function(gameList) {
 			let list = [];
-			for (let i = 0; i < responseData.length; i++) {
-				list.push(responseData[i].id);
+			for (let i = 0; i < gameList.body.length; i++) {
+				list.push(gameList.body[i].id);
 			}
-			gamesList = list.join(',');
-
-			let newGames;
+			let queryList = list.join(',');
 
 			unirest
-				.get(`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`)
+				.get(`https://api-2445582011268.apicast.io/games/${queryList}?fields=*`)
 				.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 				.header('Accept', 'application/json')
-				.end(function(result) {
-					newGames = result.body;
-
+				.end(function(results) {
 					res.render('listGames', {
-						data: newGames,
+						data: results.body,
 						title: 'New Releases'
 					});
 				});

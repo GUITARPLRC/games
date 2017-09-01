@@ -38,25 +38,13 @@ exports.getNewReleaseList = date => {
 		});
 };
 
-exports.getList = list => {
+exports.getInfoList = ids => {
 	unirest
-		.get(`https://api-2445582011268.apicast.io/games/${list}?fields=*`)
+		.get(`https://api-2445582011268.apicast.io/games/${ids}?fields=*`)
 		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			return result.body;
-		});
-};
-
-exports.getGameInfo = id => {
-	unirest
-		.get(
-			`https://igdbcom-internet-game-database-v1.p.mashape.com/games/${id}?fields=*`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			return result.body[0];
 		});
 };
 
@@ -142,184 +130,49 @@ let platforms = [
 	{ id: 100, name: 'Analogue electronics' },
 	{ id: 101, name: 'Ferranti Nimrod Computer' },
 	{ id: 103, name: 'PDP-7' },
-	{
-		id: 104,
-		name: 'HP 2100'
-	},
-	{
-		id: 113,
-		name: 'OnLive Game System'
-	},
-	{
-		id: 117,
-		name: 'Philips CD-i'
-	},
-	{
-		id: 127,
-		name: 'Fairchild Channel F'
-	},
-	{
-		id: 135,
-		name: 'Hyper Neo Geo 64'
-	},
-	{
-		id: 136,
-		name: 'Neo Geo CD'
-	},
-	{
-		id: 4,
-		name: 'Nintendo 64'
-	},
-	{
-		id: 6,
-		name: 'PC (Microsoft Windows)'
-	},
-	{
-		id: 15,
-		name: 'Commodore C64/128'
-	},
-	{
-		id: 20,
-		name: 'Nintendo DS'
-	},
-	{
-		id: 27,
-		name: 'MSX'
-	},
-	{
-		id: 35,
-		name: 'Sega Game Gear'
-	},
-	{
-		id: 36,
-		name: 'Xbox Live Arcade'
-	},
-	{
-		id: 38,
-		name: 'PlayStation Portable'
-	},
-	{
-		id: 51,
-		name: 'Family Computer Disk System'
-	},
-	{
-		id: 55,
-		name: 'Mobile'
-	},
-	{
-		id: 57,
-		name: 'WonderSwan'
-	},
-	{
-		id: 80,
-		name: 'Neo Geo AES'
-	},
-	{
-		id: 85,
-		name: 'Donner Model 30'
-	},
-	{
-		id: 93,
-		name: 'Commodore 16'
-	},
-	{
-		id: 106,
-		name: 'SDS Sigma 7'
-	},
-	{
-		id: 109,
-		name: 'CDC Cyber 70'
-	},
-	{
-		id: 114,
-		name: 'Amiga CD32'
-	},
-	{
-		id: 118,
-		name: 'FM Towns'
-	},
-	{
-		id: 131,
-		name: 'Nintendo PlayStation'
-	},
-	{
-		id: 134,
-		name: 'Acorn Electron'
-	},
-	{
-		id: 7,
-		name: 'PlayStation'
-	},
-	{
-		id: 13,
-		name: 'PC DOS'
-	},
-	{
-		id: 16,
-		name: 'Amiga'
-	},
-	{
-		id: 18,
-		name: 'Nintendo Entertainment System (NES)'
-	},
-	{
-		id: 39,
-		name: 'iOS'
-	},
-	{
-		id: 46,
-		name: 'PlayStation Vita'
-	},
-	{
-		id: 49,
-		name: 'Xbox One'
-	},
-	{
-		id: 66,
-		name: 'Atari 5200'
-	},
-	{
-		id: 67,
-		name: 'Intellivision'
-	},
-	{
-		id: 71,
-		name: 'Commodore VIC-20'
-	},
-	{
-		id: 72,
-		name: 'Ouya'
-	},
-	{
-		id: 77,
-		name: 'Sharp X1'
-	},
-	{
-		id: 86,
-		name: 'TurboGrafx-16/PC Engine'
-	},
-	{
-		id: 95,
-		name: 'PDP-1'
-	},
-	{
-		id: 97,
-		name: 'PDP-8'
-	},
-	{
-		id: 107,
-		name: 'Call-A-Computer time-shared mainframe computer system'
-	},
-	{
-		id: 111,
-		name: 'Imlac PDS-1'
-	},
-	{
-		id: 112,
-		name: 'Microcomputer'
-	},
-	{
-		id: 115,
-		name: 'Apple IIGS'
-	}
+	{ id: 104, name: 'HP 2100' },
+	{ id: 113, name: 'OnLive Game System' },
+	{ id: 117, name: 'Philips CD-i' },
+	{ id: 127, name: 'Fairchild Channel F' },
+	{ id: 135, name: 'Hyper Neo Geo 64' },
+	{ id: 136, name: 'Neo Geo CD' },
+	{ id: 4, name: 'Nintendo 64' },
+	{ id: 6, name: 'PC (Microsoft Windows)' },
+	{ id: 15, name: 'Commodore C64/128' },
+	{ id: 20, name: 'Nintendo DS' },
+	{ id: 27, name: 'MSX' },
+	{ id: 35, name: 'Sega Game Gear' },
+	{ id: 36, name: 'Xbox Live Arcade' },
+	{ id: 38, name: 'PlayStation Portable' },
+	{ id: 51, name: 'Family Computer Disk System' },
+	{ id: 55, name: 'Mobile' },
+	{ id: 57, name: 'WonderSwan' },
+	{ id: 80, name: 'Neo Geo AES' },
+	{ id: 85, name: 'Donner Model 30' },
+	{ id: 93, name: 'Commodore 16' },
+	{ id: 106, name: 'SDS Sigma 7' },
+	{ id: 109, name: 'CDC Cyber 70' },
+	{ id: 114, name: 'Amiga CD32' },
+	{ id: 118, name: 'FM Towns' },
+	{ id: 131, name: 'Nintendo PlayStation' },
+	{ id: 134, name: 'Acorn Electron' },
+	{ id: 7, name: 'PlayStation' },
+	{ id: 13, name: 'PC DOS' },
+	{ id: 16, name: 'Amiga' },
+	{ id: 18, name: 'Nintendo Entertainment System (NES)' },
+	{ id: 39, name: 'iOS' },
+	{ id: 46, name: 'PlayStation Vita' },
+	{ id: 49, name: 'Xbox One' },
+	{ id: 66, name: 'Atari 5200' },
+	{ id: 67, name: 'Intellivision' },
+	{ id: 71, name: 'Commodore VIC-20' },
+	{ id: 72, name: 'Ouya' },
+	{ id: 77, name: 'Sharp X1' },
+	{ id: 86, name: 'TurboGrafx-16/PC Engine' },
+	{ id: 95, name: 'PDP-1' },
+	{ id: 97, name: 'PDP-8' },
+	{ id: 107, name: 'Call-A-Computer time-shared mainframe computer system' },
+	{ id: 111, name: 'Imlac PDS-1' },
+	{ id: 112, name: 'Microcomputer' },
+	{ id: 115, name: 'Apple IIGS' }
 ];
