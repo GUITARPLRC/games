@@ -70,8 +70,16 @@ exports.dateFormat = str => {
 
 exports.findPlatform = id => {
 	for (let i = 0; i < platforms.length; i++) {
-		if (platforms[i].id === id && platforms[i].name) {
-			return `- ${platforms[i].name}`;
+		if (platforms[i].id === id) {
+			return `${platforms[i].name}`;
+		}
+	}
+};
+
+exports.getRegion = id => {
+	for (let i = 0; i < region.length; i++) {
+		if (region[i].id === id) {
+			return `${region[i].name}`;
 		}
 	}
 };
@@ -174,5 +182,19 @@ let platforms = [
 	{ id: 107, name: 'Call-A-Computer time-shared mainframe computer system' },
 	{ id: 111, name: 'Imlac PDS-1' },
 	{ id: 112, name: 'Microcomputer' },
-	{ id: 115, name: 'Apple IIGS' }
+	{ id: 115, name: 'Apple IIGS' },
+	{ id: 47, name: 'Wii Virtual Console' },
+	{ id: 3, name: 'Linux' },
+	{ id: 45, name: 'PlayStation Store' }
+];
+
+let region = [
+	{ id: 1, name: 'EU' },
+	{ id: 2, name: 'NA' },
+	{ id: 3, name: 'AU' },
+	{ id: 4, name: 'NZ' },
+	{ id: 5, name: 'JP' },
+	{ id: 6, name: 'CH' },
+	{ id: 7, name: 'AS' },
+	{ id: 8, name: 'Worldwide' }
 ];

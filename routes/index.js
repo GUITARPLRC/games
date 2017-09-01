@@ -42,17 +42,18 @@ router.get('/upcoming', (req, res) => {
 			// make list to make second call to api with ids
 			let list = [];
 			let i = 0;
-			while (i < 10) {
-				list.push(result.body[i].id);
+			while (i < 20) {
+				list.push(result.body[i].game);
 				i++;
 			}
-			let gamesList = list.join(',');
+			let noDupList = Array.from(new Set(list));
+			let gamesList = noDupList.join(',');
 
 			// second call to api for game list data
 			if (gamesList.length > 1) {
 				unirest
 					.get(
-						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=name,cover,summary,id,esrb`
+						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`
 					)
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
@@ -80,9 +81,10 @@ router.get('/newreleases', (req, res) => {
 		.end(function(gameList) {
 			let list = [];
 			for (let i = 0; i < gameList.body.length; i++) {
-				list.push(gameList.body[i].id);
+				list.push(gameList.body[i].game);
 			}
-			let queryList = list.join(',');
+			let noDupList = Array.from(new Set(list));
+			let queryList = noDupList.join(',');
 
 			unirest
 				.get(`https://api-2445582011268.apicast.io/games/${queryList}?fields=*`)
@@ -134,7 +136,7 @@ router.get('/:id', (req, res) => {
 			if (responseData.release_dates) {
 				if (responseData.release_dates.length > 0) {
 					for (let i = 0; i < responseData.release_dates.length; i++) {
-						platforms.push(responseData.release_dates[i].platform);
+						platforms.push(responseData.release_dates[i]);
 					}
 				}
 			}
@@ -163,10 +165,19 @@ router.get('/:id', (req, res) => {
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
+						let list = [];
+						let i = 0;
+						do {
+							if (result.body[i].name && result.body[i].cover) {
+								list.push(result.body[i]);
+							}
+							i++;
+						} while (list.length < 5 && i < 10);
+
 						res.render('game', {
 							data: responseData,
 							title: responseData.name,
-							games: result.body,
+							games: list,
 							platforms: platformList
 						});
 					});
