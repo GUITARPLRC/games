@@ -71,7 +71,7 @@ router.get('/upcoming', (req, res) => {
 // new release route
 router.get('/newreleases', (req, res) => {
 	// date in mili for api call
-	const date = new Date().getTime();
+	const date = new Date().getTime() - 500000000;
 
 	unirest
 		.get(
@@ -143,7 +143,6 @@ router.get('/game/:id', (req, res) => {
 			}
 			// remove duplicates from array
 			let platformList = Array.from(new Set(platforms));
-			console.log(platformList);
 
 			// set title of game for browser info
 			let title = '';
