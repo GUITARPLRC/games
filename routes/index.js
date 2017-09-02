@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const axios = require('axios');
 const unirest = require('unirest');
 
 const helpers = require('../helpers');
@@ -119,7 +120,7 @@ router.get('/search', (req, res) => {
 });
 
 // individual game route
-router.get('/:id', (req, res) => {
+router.get('/game/:id', (req, res) => {
 	// get id of game clicked
 	const gameId = req.params.id;
 
@@ -142,6 +143,7 @@ router.get('/:id', (req, res) => {
 			}
 			// remove duplicates from array
 			let platformList = Array.from(new Set(platforms));
+			console.log(platformList);
 
 			// set title of game for browser info
 			let title = '';

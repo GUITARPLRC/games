@@ -2,8 +2,15 @@ const unirest = require('unirest');
 
 exports.siteName = 'Game Search';
 
-exports.getPopularList = () => {
-	unirest
+const asyncMiddleware = fn => {
+	(req, res, next) => {
+		Promise.resolve(fn(req, res, next)).catch(next);
+	};
+};
+exports.asyncMiddleware;
+
+let getPopularList = async () => {
+	let list = await unirest
 		.get(
 			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
 		)
@@ -12,7 +19,9 @@ exports.getPopularList = () => {
 		.end(function(result) {
 			return result.body;
 		});
+	return list;
 };
+exports.getPopularList;
 
 exports.getUpcomingList = date => {
 	unirest
@@ -185,7 +194,29 @@ let platforms = [
 	{ id: 115, name: 'Apple IIGS' },
 	{ id: 47, name: 'Wii Virtual Console' },
 	{ id: 3, name: 'Linux' },
-	{ id: 45, name: 'PlayStation Store' }
+	{ id: 45, name: 'PlayStation Network' },
+	{ id: 37, name: 'Nintendo 3DS' },
+	{ id: 64, name: 'Sega Master System' },
+	{ id: 11, name: 'Xbox' },
+	{ id: 23, name: 'Dreamcast' },
+	{ id: 50, name: '3DO Interactive Multiplayer' },
+	{ id: 53, name: 'MSX2' },
+	{ id: 56, name: 'WiiWare' },
+	{ id: 58, name: 'Super Famicon' },
+	{ id: 61, name: 'Atari Lynx' },
+	{ id: 63, name: 'Atari ST/STE' },
+	{ id: 68, name: 'ColecoVision' },
+	{ id: 69, name: 'BBC Microcomputer System' },
+	{ id: 74, name: 'Windows Phone' },
+	{ id: 90, name: 'Commodore PET' },
+	{ id: 91, name: 'Bally Astrocade' },
+	{ id: 102, name: 'EDSAC' },
+	{ id: 121, name: 'Sharp X68000' },
+	{ id: 122, name: 'Nuon' },
+	{ id: 124, name: 'SwanCrystal' },
+	{ id: 125, name: 'PC-8801' },
+	{ id: 128, name: 'PC Engine SuperGrafx' },
+	{ id: 133, name: 'Philips Videopac G7000' }
 ];
 
 let region = [

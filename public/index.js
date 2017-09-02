@@ -1,4 +1,3 @@
-// Bootstrap modal show
 $('#modal').on('show.bs.modal', e => {
 	let el = $(event.target); // div that triggered modal to show
 	let src = '';
