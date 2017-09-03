@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const axios = require('axios');
 const unirest = require('unirest');
 
 const helpers = require('../helpers');
@@ -192,4 +191,30 @@ router.get('/game/:id', (req, res) => {
 		});
 });
 
+// individual platform route
+router.get('/platform/:platform', (req, res) => {
+	let date = new Date().getTime() - 50000000;
+	// get id of game clicked
+	const platformId = req.params.platform;
+	let id;
+	if (platformId == 'playstation') {
+		id = 48;
+	} else if (platformId == 'xbox') {
+		id = 49;
+	} else if (platformId == 'nintendo') {
+		id = 130;
+	} else {
+		res.end();
+	}
+
+	// api call
+	unirest
+		.get(`https://api-2445582011268.apicast.io/games/${Id}?fields=*`)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+
+			res.render('platform', data: )
+		})
+});
 module.exports = router;

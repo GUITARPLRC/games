@@ -2,13 +2,6 @@ const unirest = require('unirest');
 
 exports.siteName = 'Game Search';
 
-const asyncMiddleware = fn => {
-	(req, res, next) => {
-		Promise.resolve(fn(req, res, next)).catch(next);
-	};
-};
-exports.asyncMiddleware;
-
 let getPopularList = async () => {
 	let list = await unirest
 		.get(
