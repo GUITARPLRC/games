@@ -51,6 +51,10 @@ nav {
 .nav-item a:hover {
 	color: #70a9a1 !important;
 }
+
+.dropdown-menu {
+	background-color: #0b2027;
+}
 .container {
 	text-align: center;
 	margin: auto;
@@ -86,6 +90,14 @@ nav {
 	margin: 0 0 0 1%;
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+.videos {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-pack: distribute;
+	-webkit-box-pack: justify;
 	justify-content: space-between;
 }
 
@@ -143,6 +155,10 @@ nav {
 .similarCover img {
 	margin: 0 auto;
 	width: 90px;
+}
+
+.video {
+	width: 350px;
 }
 
 /* button link Transistions */

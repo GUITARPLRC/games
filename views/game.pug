@@ -49,6 +49,13 @@ block content
 				p
 					strong Sorry, no images available at this time
 					
+			if videos
+				h4 Videos
+				.list-group.videos
+				for each in videos
+					.list-group-item.video
+						iframe(src=`https://www.youtube.com/embed/${each}?controls=0&showinfo=0&rel=0&loop=1&playlist=${each}`)
+					
 			if games
 				h4 Similar Games
 				.list-group.similarGames

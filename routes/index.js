@@ -14,7 +14,7 @@ router.get('/favicon.ico', function(req, res) {
 router.get('/', (req, res) => {
 	unirest
 		.get(
-			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
+			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc&limit=20`
 		)
 		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
@@ -42,7 +42,7 @@ router.get('/upcoming', (req, res) => {
 			// make list to make second call to api with ids
 			let list = [];
 			let i = 0;
-			while (i < 20) {
+			while (i < responseData.length) {
 				list.push(result.body[i].game);
 				i++;
 			}
@@ -80,8 +80,10 @@ router.get('/newreleases', (req, res) => {
 		.header('Accept', 'application/json')
 		.end(function(gameList) {
 			let list = [];
-			for (let i = 0; i < gameList.body.length; i++) {
-				list.push(gameList.body[i].game);
+			let i = 0;
+			while (i < gameList.length) {
+				list.push(gameList[i].game);
+				i++;
 			}
 			let noDupList = Array.from(new Set(list));
 			let queryList = noDupList.join(',');
@@ -174,12 +176,28 @@ router.get('/game/:id', (req, res) => {
 							i++;
 						} while (list.length < 5 && i < 10);
 
-						res.render('game', {
-							data: responseData,
-							title: responseData.name,
-							games: list,
-							platforms: platformList
-						});
+						if (responseData.videos) {
+							let videoList = [];
+							let i = 0;
+							while (i < 5) {
+								videoList.push(responseData.videos[i].video_id);
+								i++;
+							}
+							res.render('game', {
+								data: responseData,
+								title: responseData.name,
+								games: list,
+								platforms: platformList,
+								videos: videoList
+							});
+						} else {
+							res.render('game', {
+								data: responseData,
+								title: responseData.name,
+								games: list,
+								platforms: platformList
+							});
+						}
 					});
 			} else {
 				res.render('game', {
@@ -209,12 +227,28 @@ router.get('/platform/:platform', (req, res) => {
 
 	// api call
 	unirest
-		.get(`https://api-2445582011268.apicast.io/games/${Id}?fields=*`)
+		.get(
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&filter[platform][eq]=${id}&order=date:asc&filter[date][gt]=${date}&limit=20`
+		)
 		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
-		.end(function(result) {
+		.end(function(platformList) {
+			let list = [];
+			let i = 0;
+			while (i < platformList.body.length) {
+				list.push(platformList.body[i].game);
+				i++;
+			}
+			let noDupList = Array.from(new Set(list));
+			let queryList = noDupList.join(',');
 
-			res.render('platform', data: )
-		})
+			unirest
+				.get(`https://api-2445582011268.apicast.io/games/${queryList}?fields=*`)
+				.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+				.header('Accept', 'application/json')
+				.end(function(result) {
+					res.render('platform', { data: result.body, title: platformId });
+				});
+		});
 });
 module.exports = router;
