@@ -52,9 +52,9 @@ block content
 			if videos
 				h4 Videos
 				.list-group.videos
-				for each in videos
-					.list-group-item.video
-						iframe(src=`https://www.youtube.com/embed/${each}?controls=0&showinfo=0&rel=0&loop=1&playlist=${each}`)
+					for each in videos
+						.video
+							iframe(src=`https://www.youtube.com/embed/${each}?controls=1&showinfo=0&rel=0`, allowfullscreen, frameborder='0')
 					
 			if games
 				h4 Similar Games

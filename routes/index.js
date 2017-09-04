@@ -177,10 +177,11 @@ router.get('/game/:id', (req, res) => {
 						} while (list.length < 5 && i < 10);
 
 						if (responseData.videos) {
+							let videos = responseData.videos.slice(0, 9);
 							let videoList = [];
 							let i = 0;
-							while (i < 5) {
-								videoList.push(responseData.videos[i].video_id);
+							while (i < videos.length) {
+								videoList.push(videos[i].video_id);
 								i++;
 							}
 							res.render('game', {
@@ -213,13 +214,16 @@ router.get('/game/:id', (req, res) => {
 router.get('/platform/:platform', (req, res) => {
 	let date = new Date().getTime() - 50000000;
 	// get id of game clicked
-	const platformId = req.params.platform;
+	let platformId = req.params.platform;
 	let id;
 	if (platformId == 'playstation') {
+		platformId = 'Playstation 4';
 		id = 48;
 	} else if (platformId == 'xbox') {
+		platformId = 'Xbox One';
 		id = 49;
 	} else if (platformId == 'nintendo') {
+		platformId = 'Nintendo Switch';
 		id = 130;
 	} else {
 		res.end();
