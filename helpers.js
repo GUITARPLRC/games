@@ -3,7 +3,7 @@ const unirest = require('unirest');
 exports.siteName = 'Game Search';
 
 /*
-let getPopularList = async () => {
+let getPopularList = () => {
 	let list = await unirest
 		.get(
 			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
