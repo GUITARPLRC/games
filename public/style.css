@@ -76,7 +76,7 @@ nav {
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	-ms-flex-pack: distribute;
-	    justify-content: space-around;
+	justify-content: space-around;
 }
 
 .info {
@@ -111,7 +111,7 @@ nav {
 	max-width: 100%;
 }
 .eachList {
-	height: 540px;
+	max-height: 540px;
 	margin: 0 1% 3% 0;
 	width: 49%;
 }
@@ -146,15 +146,14 @@ nav {
 }
 
 .similarCover {
-	-webkit-box-pack: justify;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
+	-ms-flex-pack: distribute;
+	justify-content: space-around;
 	display: -ms-flexbox;
 	display: -webkit-box;
 	display: flex;
+	-ms-flex-direction: column;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
-	-ms-flex-direction: column;
 	flex-direction: column;
 	height: 170px;
 	width: 18%;
@@ -183,4 +182,44 @@ button[type='submit'],
 .nav-item a {
 	-webkit-transition: all 0.3s ease;
 	transition: all 0.3s ease;
+}
+
+/* Media queries */
+
+@media screen and (max-width: 990px) {
+	img {
+		height: 200px;
+		width: auto;
+	}
+	.container {
+		margin: 0 auto;
+		padding: 0;
+		width: 90vw;
+	}
+	.list {
+		display: block;
+		margin: 0 auto;
+		width: 90vw;
+	}
+	.eachList {
+		max-height: 540px;
+		width: 100%;
+	}
+	.eachList a {
+		height: auto;
+	}
+	.top {
+		display: block;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	.similarGames {
+		display: block;
+		width: 100%;
+	}
+	.similarCover {
+		margin: 3% 0;
+		width: 100%;
+	}
 }

@@ -9,8 +9,13 @@ html
 		nav.navbar.navbar-inverse
 			.container
 				.navbar-header
+					button(type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar").navbar-toggle.collapsed
+						span.sr-only Toggle Navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
 					a(href='/').navbar-brand Game Search
-				.collapse.navbar-collapse
+				#navbar.collapse.navbar-collapse
 					ul.nav.navbar-nav
 						li.nav-item
 							a(href='/upcoming') Upcoming Games
