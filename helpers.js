@@ -2,47 +2,6 @@ const unirest = require('unirest');
 
 exports.siteName = 'Game Search';
 
-/*
-let getPopularList = () => {
-	let list = await unirest
-		.get(
-			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			return result.body;
-		});
-	return list;
-};
-exports.getPopularList;
-
-exports.getUpcomingList = date => {
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			return result.body;
-		});
-};
-
-exports.getNewReleaseList = date => {
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			return result.body;
-		});
-};
-
-*/
-
 exports.getInfoList = ids => {
 	unirest
 		.get(`https://api-2445582011268.apicast.io/games/${ids}?fields=*`)
