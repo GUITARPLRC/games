@@ -2,6 +2,7 @@ const unirest = require('unirest');
 
 exports.siteName = 'Game Search';
 
+/*
 let getPopularList = async () => {
 	let list = await unirest
 		.get(
@@ -39,6 +40,8 @@ exports.getNewReleaseList = date => {
 			return result.body;
 		});
 };
+
+*/
 
 exports.getInfoList = ids => {
 	unirest
