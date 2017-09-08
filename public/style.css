@@ -128,6 +128,12 @@ nav {
 	-ms-flex-pack: center;
 	justify-content: space-around;
 }
+.screenshot {
+	margin: 2% 0;
+}
+.list-group-item.screenshot:last-child {
+	margin: 2% 0;
+}
 .list-group-item {
 	-webkit-box-shadow: 0 0 5px #000;
 	box-shadow: 0 0 5px #000;
@@ -146,20 +152,22 @@ nav {
 }
 
 .similarCover {
-	-ms-flex-pack: distribute;
-	justify-content: space-around;
-	display: -ms-flexbox;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
 	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
-	-ms-flex-direction: column;
 	-webkit-box-orient: vertical;
 	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
 	flex-direction: column;
 	height: 170px;
-	width: 18%;
+	width: 19%;
 }
 .similarCover img {
-	margin: 0 auto 10px auto;
+	height: 90px;
+	margin: 0 auto;
 	width: 90px;
 }
 .video {

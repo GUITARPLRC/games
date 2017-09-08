@@ -5,11 +5,6 @@ const unirest = require('unirest');
 
 const helpers = require('../helpers');
 
-//NOTE remove if favicon is supplied
-router.get('/favicon.ico', function(req, res) {
-	res.status(204);
-});
-
 // Main Route
 router.get('/', (req, res) => {
 	unirest

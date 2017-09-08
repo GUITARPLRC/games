@@ -6,6 +6,11 @@ let helpers = require('./helpers');
 
 let app = express();
 
+//NOTE remove if favicon is supplied
+app.get('/favicon.ico', function(req, res) {
+	res.status(204);
+});
+
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'pug');
 
