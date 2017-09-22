@@ -2,13 +2,69 @@ const unirest = require('unirest');
 
 exports.siteName = 'Game Search';
 
-exports.getInfoList = ids => {
+exports.getMain = cb => {
 	unirest
-		.get(`https://api-2445582011268.apicast.io/games/${ids}?fields=*`)
+		.get(`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc&limit=20`)
 		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 		.header('Accept', 'application/json')
 		.end(function(result) {
-			return result.body;
+			cb(result.body);
+		});
+};
+
+exports.getList = (gamesList, cb) => {
+	unirest
+		.get(`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			cb(result.body);
+		});
+};
+
+exports.getUpcoming = (date, cb) => {
+	unirest
+		.get(
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
+		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			cb(result.body);
+		});
+};
+
+exports.getNewReleases = (date, cb) => {
+	unirest
+		.get(
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
+		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			cb(result.body);
+		});
+};
+
+exports.gameSearch = (title, cb) => {
+	unirest
+		.get(`https://api-2445582011268.apicast.io/games/?search=${title}&fields=name,cover,summary,id,esrb&limit=20`)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			cb(result.body);
+		});
+};
+
+exports.getPlatformGames = (id, date, cb) => {
+	unirest
+		.get(
+			`https://api-2445582011268.apicast.io/release_dates/?fields=*&filter[platform][eq]=${id}&order=date:asc&filter[date][gt]=${date}&limit=20`
+		)
+		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('Accept', 'application/json')
+		.end(function(result) {
+			cb(result.body);
 		});
 };
 

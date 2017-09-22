@@ -7,59 +7,39 @@ const helpers = require('../helpers');
 
 // Main Route
 router.get('/', (req, res) => {
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			res.render('listGames', { data: result.body, title: 'Home' });
-		});
+	helpers.getMain(function(result) {
+		res.render('listGames', { data: result, title: 'Home' });
+	});
 });
 
 // upcoming route
 router.get('/upcoming', (req, res) => {
 	// date in mili to get api data
 	const date = new Date().getTime();
-	let responseData;
 
-	// api call
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			responseData = result.body;
+	// first api call
+	helpers.getUpcoming(date, function(result) {
+		// make list to make second call to api with ids
+		let list = [];
+		let i = 0;
+		while (i < result.length) {
+			list.push(result[i].game);
+			i++;
+		}
 
-			// make list to make second call to api with ids
-			let list = [];
-			let i = 0;
-			while (i < responseData.length) {
-				list.push(result.body[i].game);
-				i++;
-			}
-			let noDupList = Array.from(new Set(list));
-			let gamesList = noDupList.join(',');
+		let noDupList = Array.from(new Set(list));
+		let gamesList = noDupList.join(',');
 
-			// second call to api for game list data
-			if (gamesList.length > 1) {
-				unirest
-					.get(
-						`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`
-					)
-					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-					.header('Accept', 'application/json')
-					.end(function(result) {
-						res.render('listGames', {
-							data: result.body,
-							title: 'Upcoming Games'
-						});
-					});
-			}
-		});
+		// second api call
+		if (gamesList.length > 1) {
+			helpers.getList(gamesList, function(result) {
+				res.render('listGames', {
+					data: result,
+					title: 'Upcoming Games'
+				});
+			});
+		}
+	});
 });
 
 // new release route
@@ -67,52 +47,37 @@ router.get('/newreleases', (req, res) => {
 	// date in mili for api call
 	const date = new Date().getTime() - 500000000;
 
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(gameList) {
-			let list = [];
-			let i = 0;
-			while (i < gameList.length) {
-				list.push(gameList[i].game);
-				i++;
-			}
-			let noDupList = Array.from(new Set(list));
-			let queryList = noDupList.join(',');
+	// first api call
+	helpers.getNewReleases(date, function(result) {
+		let list = [];
+		let i = 0;
 
-			unirest
-				.get(`https://api-2445582011268.apicast.io/games/${queryList}?fields=*`)
-				.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-				.header('Accept', 'application/json')
-				.end(function(results) {
-					res.render('listGames', {
-						data: results.body,
-						title: 'New Releases'
-					});
-				});
+		while (i < result.length) {
+			list.push(result[i].game);
+			i++;
+		}
+
+		let noDupList = Array.from(new Set(list));
+		let queryList = noDupList.join(',');
+
+		// second api call
+		helpers.getList(queryList, function(result) {
+			res.render('listGames', {
+				data: result,
+				title: 'New Releases'
+			});
 		});
+	});
 });
 
 // game search route
 router.get('/search', (req, res) => {
-	const gameTitle = req.query.title.split(' ').join('+');
-	let responseData;
+	const title = req.query.title.split(' ').join('+');
 
 	// api call
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/games/?search=${gameTitle}&fields=name,cover,summary,id,esrb&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(result) {
-			responseData = result.body;
-
-			res.render('listGames', { data: responseData, title: 'Search' });
-		});
+	helpers.gameSearch(title, function(result) {
+		res.render('listGames', { data: result, title: 'Search' });
+	});
 });
 
 // individual game route
@@ -156,9 +121,7 @@ router.get('/game/:id', (req, res) => {
 
 				// second api call to get similar games data
 				unirest
-					.get(
-						`https://api-2445582011268.apicast.io/games/${similarList}?fields=*`
-					)
+					.get(`https://api-2445582011268.apicast.io/games/${similarList}?fields=*`)
 					.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
 					.header('Accept', 'application/json')
 					.end(function(result) {
@@ -224,30 +187,24 @@ router.get('/platform/:platform', (req, res) => {
 		res.end();
 	}
 
-	// api call
-	unirest
-		.get(
-			`https://api-2445582011268.apicast.io/release_dates/?fields=*&filter[platform][eq]=${id}&order=date:asc&filter[date][gt]=${date}&limit=20`
-		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-		.header('Accept', 'application/json')
-		.end(function(platformList) {
-			let list = [];
-			let i = 0;
-			while (i < platformList.body.length) {
-				list.push(platformList.body[i].game);
-				i++;
-			}
-			let noDupList = Array.from(new Set(list));
-			let queryList = noDupList.join(',');
+	// first api call
+	helpers.getPlatformGames(id, date, function(result) {
+		let list = [];
+		let i = 0;
 
-			unirest
-				.get(`https://api-2445582011268.apicast.io/games/${queryList}?fields=*`)
-				.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
-				.header('Accept', 'application/json')
-				.end(function(result) {
-					res.render('platform', { data: result.body, title: platformId });
-				});
+		while (i < result.length) {
+			list.push(result[i].game);
+			i++;
+		}
+
+		let noDupList = Array.from(new Set(list));
+		let queryList = noDupList.join(',');
+
+		// second api call
+		helpers.getList(queryList, function(result) {
+			res.render('platform', { data: result, title: platformId });
 		});
+	});
 });
+
 module.exports = router;
