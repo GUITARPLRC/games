@@ -1,8 +1,9 @@
 doctype html
 html
 	head
-		title= `${title} -- ${h.siteName}`
+		title= `${title} | ${h.siteName}`
 		meta(name="viewport", content="width=device-width, initial-scale=1")
+		link(rel="shortcut icon" type="image/png" href="/images/favicon.png")
 		link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u", crossorigin="anonymous")
 		link(rel='stylesheet', href='/style.css')
 	body
@@ -17,20 +18,18 @@ html
 					a(href='/').navbar-brand Game Search
 				#navbar.collapse.navbar-collapse
 					ul.nav.navbar-nav
-						li.nav-item
-							a(href='/upcoming') Upcoming Games
-						li.nav-item
-							a(href="/newreleases") New Releases
-						li.nav-item
-							a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Platforms
-								span.caret
-							ul.dropdown-menu
-								li
-									a(href="/platform/xbox") Xbox
-								li
-									a(href='/platform/playstation') Playstation
-								li
-									a(href='/platform/nintendo') Nintendo
+						each item in h.menu
+							if item.list !== null
+								li.nav-item
+									a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") #{item.title}
+										span.caret
+									ul.dropdown-menu
+										each link in item.list
+											li
+												a(href=link.slug) #{link.title}
+							else
+								li.nav-item
+									a(href=item.slug) #{item.title}
 					form(method='GET', action='/search').navbar-form.navbar-right
 						.form-group
 							input(type='text', placeholder='Game Title', name='title').form-control

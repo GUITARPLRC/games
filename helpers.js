@@ -5,7 +5,7 @@ exports.siteName = 'Game Search';
 exports.getMain = cb => {
 	unirest
 		.get(`https://api-2445582011268.apicast.io/games/?fields=name,cover,summary,id,esrb&order=popularity:desc&limit=20`)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -15,7 +15,7 @@ exports.getMain = cb => {
 exports.getList = (gamesList, cb) => {
 	unirest
 		.get(`https://api-2445582011268.apicast.io/games/${gamesList}?fields=*`)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -27,7 +27,7 @@ exports.getUpcoming = (date, cb) => {
 		.get(
 			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:asc&filter[date][gt]=${date}&limit=20`
 		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -39,7 +39,7 @@ exports.getNewReleases = (date, cb) => {
 		.get(
 			`https://api-2445582011268.apicast.io/release_dates/?fields=*&order=date:desc&filter[date][lt]=${date}&limit=20`
 		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -49,7 +49,7 @@ exports.getNewReleases = (date, cb) => {
 exports.gameSearch = (title, cb) => {
 	unirest
 		.get(`https://api-2445582011268.apicast.io/games/?search=${title}&fields=name,cover,summary,id,esrb&limit=20`)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -61,7 +61,7 @@ exports.getPlatformGames = (id, date, cb) => {
 		.get(
 			`https://api-2445582011268.apicast.io/release_dates/?fields=*&filter[platform][eq]=${id}&order=date:asc&filter[date][gt]=${date}&limit=20`
 		)
-		.header('user-key', 'b5664c84f8256123289cd6a44d2729e0')
+		.header('user-key', process.env.API_KEY)
 		.header('Accept', 'application/json')
 		.end(function(result) {
 			cb(result.body);
@@ -103,6 +103,20 @@ exports.getRegion = id => {
 		}
 	}
 };
+
+exports.menu = [
+	{ slug: '/upcoming', list: null, title: 'Upcoming Games' },
+	{ slug: '/newreleases', list: null, title: 'New Releases' },
+	{
+		slug: '/platforms',
+		list: [
+			{ slug: '/platform/xbox', title: 'Xbox One' },
+			{ slug: '/platform/playstation', title: 'Playstation 4' },
+			{ slug: '/platform/nintendo', title: 'Nintendo Switch' }
+		],
+		title: 'Platforms'
+	}
+];
 
 let platforms = [
 	{ id: 14, name: 'Mac' },
