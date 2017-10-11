@@ -2,7 +2,11 @@
 Video Games - Express, Mongo
 
 Install
-code npm i
+```
+npm i
+```
 
 Start
-code npm start
+```
+npm start
+```
