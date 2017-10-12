@@ -1,0 +1,19 @@
+extends layout
+
+block content
+	
+	.container
+		form.form-signin(action='/login' method='POST')
+			h2.form-signin-heading Please login in
+			label(for="inputEmail") Email address
+			input(type="email" id="inputEmail" class="form-control" required autofocus)
+			label(for="inputPassword") Password
+			input(type="password" id="inputPassword" class="form-control" required)
+			a.btn.btn-success.btn-lg.btn-block Log in &#8594;
+			
+		.container
+			form.form-signin
+				h2.form-signin-heading Forgot my password
+				label(for="inputEmail") Email address
+				input(type="email" id="inputEmail" class="form-control")
+				a.btn.btn-warning.btn-lg.btn-block &#8592; Send a Reset

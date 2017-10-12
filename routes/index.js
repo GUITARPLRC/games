@@ -1,32 +1,40 @@
 const express = require('express');
 const router = express.Router();
 
-const main = require('../controllers/main');
+const mainController = require('../controllers/mainController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
 
 require('dotenv').config({ path: 'variables.env' });
 
 // Main Route
-router.get('/', main.homePage);
+router.get('/', mainController.homePage);
 
 // upcoming route
-router.get('/upcoming', main.upcoming);
+router.get('/upcoming', mainController.upcoming);
 
 // new release route
-router.get('/newreleases', main.newReleases);
+router.get('/newreleases', mainController.newReleases);
 
 // game search route
-router.get('/search', main.search);
+router.get('/search', mainController.search);
 
 // individual game route
-router.get('/game/:id', main.game);
+router.get('/game/:id', mainController.game);
 
 // individual platform route
-router.get('/platform/:platform', main.platform);
+router.get('/platform/:platform', mainController.platform);
 
-// // user login
-// router.get('/login', user.login);
-//
-// //user signup
-// router.get('/signup', user.signup);
+// user register get route
+router.get('/register', userController.registerForm);
+
+// user register post route
+// 1. Validate registration data
+// 2. Register userController
+// 3. Log them in
+router.post('/register', userController.validateRegister, userController.register, authController.login);
+
+// userController log in
+router.get('/login', userController.login);
 
 module.exports = router;

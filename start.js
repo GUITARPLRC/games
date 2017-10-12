@@ -10,9 +10,7 @@ mongoose.connection.on('error', err => {
 	console.error(err.message);
 });
 
-// mongoose.connection.once('open', () => {
-// 	console.log('connect');
-// });
+require('./models/User');
 
 // Start our app!
 const app = require('./app');

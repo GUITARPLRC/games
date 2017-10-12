@@ -2,7 +2,7 @@ extends layout
 
 block content
 	.container
-		- let pageTitle = title == 'Home' ? '' : title
+		- let pageTitle = title == 'Home' ? 'Featured Games' : title
 		h2 #{pageTitle}
 		.list-group.list
 			for each in data

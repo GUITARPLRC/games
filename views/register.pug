@@ -1,0 +1,16 @@
+extends layout
+
+block content
+	
+	.container
+		form.form-signin(action='/register' method='POST')
+			h2.form-signin-heading Register
+			label(for="name") Name
+			input(type="text" id="name" name='name' class="form-control" required autofocus)
+			label(for="inputEmail") Email address
+			input(type="email" id="inputEmail" name='email' class="form-control" required)
+			label(for="inputPassword") Password
+			input(type="password" id="inputPassword" name='password' class="form-control" required)
+			label(for="password-confirm") Confirm Password
+			input(type="password" id="password-confirm" name='password-confirm' class="form-control" required)
+			button(type='submit').btn.btn-lg.btn-block Register &#8594;
