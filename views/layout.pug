@@ -33,8 +33,11 @@ html
 					form(method='GET', action='/search').navbar-form.navbar-right
 						.form-group
 							input(type='text', placeholder='Search Game Title', name='title').form-control
-						a(href='/register').btn.btn-primary Register
-						a(href='/login').btn.btn-success Log In
+							if user
+								a(href='/logout').btn.btn-danger Log out
+							else
+								a(href='/register').btn.btn-primary Register
+								a(href='/login').btn.btn-success Log In
 						
 		block messages
 			if locals.flashes

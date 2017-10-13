@@ -9,11 +9,11 @@ block content
 			input(type="email" id="inputEmail" class="form-control" required autofocus)
 			label(for="inputPassword") Password
 			input(type="password" id="inputPassword" class="form-control" required)
-			a.btn.btn-success.btn-lg.btn-block Log in &#8594;
+			button.btn.btn-lg.btn-block(type='submit') Log in &#8594;
 			
 		.container
-			form.form-signin
+			form.form-signin(action='/forgot' method='POST')
 				h2.form-signin-heading Forgot my password
 				label(for="inputEmail") Email address
 				input(type="email" id="inputEmail" class="form-control")
-				a.btn.btn-warning.btn-lg.btn-block &#8592; Send a Reset
+				button.btn.btn-lg.btn-block(type='submit') &#8592; Send a Reset

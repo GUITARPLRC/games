@@ -3,6 +3,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const promisify = require('es6-promisify');
@@ -29,6 +30,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // validating data
 app.use(expressValidator());
+
+// populates req.cookies with any cookies that came along with the request
+app.use(cookieParser());
 
 // Sessions allow us to store data on visitors from request to request
 // This keeps users logged in and allows us to send flash messages
