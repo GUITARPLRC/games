@@ -12,6 +12,7 @@ beige - #f6f1d1
 body {
 	background-color: #f6f1d1;
 	letter-spacing: 1px;
+	padding-top: 55px;
 }
 h4 {
 	margin: 50px 0 10px 0;
@@ -30,7 +31,7 @@ img {
 	max-width: 100%;
 }
 div.container {
-	margin-top: 60px;
+	text-align: center;
 }
 
 /* Flashes */
@@ -111,9 +112,14 @@ nav {
 .dropdown-menu {
 	background-color: #0b2027;
 }
-.container {
-	text-align: center;
-	margin: auto;
+#navbar > form > div > a > img {
+	border-radius: 50%;
+	height: 35px;
+	width: 35px;
+}
+
+#navbar > form > div > a > img:hover {
+	cursor: pointer;
 }
 
 .navbar .btn:first-of-type {

@@ -5,6 +5,8 @@ const mainController = require('../controllers/mainController');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
+const { catchErrors } = require('../handlers/errorHandlers');
+
 require('dotenv').config({ path: 'variables.env' });
 
 // Main Route
@@ -40,5 +42,13 @@ router.get('/login', userController.loginForm);
 router.post('/login', authController.login);
 
 router.get('/logout', authController.logout);
+
+router.get('/account', authController.isLoggedIn, userController.account);
+router.post('/account', catchErrors(userController.updateAccount));
+
+router.post('/account/forgot', authController.forgot);
+
+router.get('/account/reset/:token', catchErrors(authController.reset));
+router.post('/account/reset/:token', authController.confirmPasswords, catchErrors(authController.update));
 
 module.exports = router;

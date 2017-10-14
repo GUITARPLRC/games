@@ -5,15 +5,15 @@ block content
 	.container
 		form.form-signin(action='/login' method='POST')
 			h2.form-signin-heading Please login in
-			label(for="inputEmail") Email address
-			input(type="email" id="inputEmail" class="form-control" required autofocus)
-			label(for="inputPassword") Password
-			input(type="password" id="inputPassword" class="form-control" required)
+			label(for="email") Email address
+			input(type="email" name="email" class="form-control" required autofocus)
+			label(for="password") Password
+			input(type="password" name="password" class="form-control" required)
 			button.btn.btn-lg.btn-block(type='submit') Log in &#8594;
 			
 		.container
-			form.form-signin(action='/forgot' method='POST')
+			form.form-signin(action='/account/forgot' method='POST')
 				h2.form-signin-heading Forgot my password
-				label(for="inputEmail") Email address
-				input(type="email" id="inputEmail" class="form-control")
+				label(for="email") Email address
+				input(type="email" name="email" class="form-control")
 				button.btn.btn-lg.btn-block(type='submit') &#8592; Send a Reset

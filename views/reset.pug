@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	
+	.container
+		form.form-signin(method='POST')
+			h2 #{title}
+			label(for='password') Password
+			input(type='password' class='form-control' name='password')
+			label(for='password-confirm') Confirm Password
+			input(type='password' class='form-control' name='password-confirm')
+			button.btn.btn-lg.btn-block(type='submit') Reset Password &#8594;

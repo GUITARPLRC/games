@@ -35,6 +35,8 @@ html
 							input(type='text', placeholder='Search Game Title', name='title').form-control
 							if user
 								a(href='/logout').btn.btn-danger Log out
+								a(href='/account')
+									img(src=user.gravatar)
 							else
 								a(href='/register').btn.btn-primary Register
 								a(href='/login').btn.btn-success Log In

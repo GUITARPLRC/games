@@ -1,0 +1,12 @@
+extends layout
+
+block content
+	
+	.container
+		form.form-signin(action='/account' method='POST')
+			h2.form-signin-heading #{title}
+			label(for='name') Name
+			input(type='text' name='name' class='form-control' value=user.name)
+			label(for='email') Email Address
+			input(type='email' name='email' class='form-control' value=user.email)
+			button.btn.btn-lg.btn-block(type='submit') Submit Updates &#8594;
