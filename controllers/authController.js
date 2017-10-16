@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const promisify = require('es6-promisify');
+const mail = require('../handlers/mail');
 
 exports.login = passport.authenticate('local', {
 	failureRedirect: '/login',
@@ -30,7 +31,7 @@ exports.forgot = async (req, res) => {
 	// 1. see if user exists
 	const user = await User.findOne({ email: req.body.email });
 	if (!user) {
-		req.flash('error', 'No account with that email exists');
+		req.flash('error', 'No account with that email exists'); // DONT SEND THIS MESSAGE PRODUCTION
 		return res.redirect('/login');
 	}
 
@@ -41,7 +42,13 @@ exports.forgot = async (req, res) => {
 
 	// 3. send them an email with the token
 	const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
-	req.flash('success', `You have been emailed a passord reset link. ${resetURL}`);
+	await mail.send({
+		user,
+		subject: 'Password Reset',
+		resetURL,
+		filename: 'password-reset'
+	});
+	req.flash('success', `You have been emailed a passord reset link.`);
 
 	// 4. redirect to login page
 	res.redirect('/login');
@@ -52,6 +59,7 @@ exports.reset = async (req, res) => {
 		resetPasswordToken: req.params.token,
 		resetPasswordExpires: { $gt: Date.now() }
 	});
+
 	if (!user) {
 		req.flash('error', 'Password reset is invalid or has expired');
 		res.redirect('/login');
